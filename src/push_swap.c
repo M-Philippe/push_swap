@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "push_swap.h"
-#include "operations.h"
+#include "../includes/push_swap.h"
+#include "../includes/operations.h"
 
 
 #include <time.h>
@@ -26,10 +26,10 @@ void	fill_first_stack(char* av[], t_stack* stack)
 	int rdm = rand() % 100;
 	while (av[i])
 	{
-		//stack->stack[stack->size] = atoi(av[i]);
-		while (doublon(stack, rdm) == true)
+		stack->stack[stack->size] = atoi(av[i]);
+		/*while (doublon(stack, rdm) == true)
 			rdm = rand() % 100;
-		stack->stack[stack->size] = rdm;
+		stack->stack[stack->size] = rdm;*/
 		stack->size++;
 		i++;
 	}
@@ -77,14 +77,16 @@ void	first_step(t_stack* stack1, t_stack* stack2)
 {	
 	while (stack1->size != 1)
 	{
-		// Opti
 		if (topIsGreater(stack1) == true && topIsBelow(stack2) == true)
 			swap_both(stack1, stack2);
 		if (topIsGreater(stack1) == true)
 			swap_a(stack1, write);
 		push_b(stack1, stack2);
-		//if (topIsBelow(stack2) == true)
-		//	swap_b(stack2, write);
+		if (topIsGreater(stack1) == true && topIsBelow(stack2) == true)
+			swap_both(stack1, stack2);
+		if (topIsGreater(stack1) == true)
+			swap_a(stack1, write);
+		//display_stack(stack1, stack2);
 	}
 }
 
@@ -99,6 +101,7 @@ void	second_step(t_stack* stack1, t_stack* stack2)
 		push_a(stack1, stack2);
 		if (topIsGreater(stack1) == true)
 			swap_a(stack1, write);
+		//display_stack(stack1, stack2);
 	}
 }
 
@@ -120,6 +123,33 @@ void	display_stack(t_stack* stack1, t_stack* stack2)
 		printf("%d [%d]\n", stack2->stack[i], i);
 }
 
+bool	checking_sort(t_stack* s)
+{
+	int		diff;
+	int		i;
+
+	i = 1;
+	if (s->size <= 1)
+		return (true);
+	diff = s->stack[0];
+	while (i < s->size)
+	{
+		if (s->stack[i] - diff > 0)
+			return (false);
+		diff = s->stack[i];
+		i++;
+	}
+	return (true);
+}
+
+void	checking(t_stack* stack1, t_stack* stack2)
+{
+	if (checking_sort(stack1) == true)
+		printf("The stack is sorted\n");
+	else
+		printf("Error, the stack isn't sorted\n");	
+}
+
 int		main(int ac, char* av[])
 {
 	t_stack		stack1;
@@ -134,9 +164,10 @@ int		main(int ac, char* av[])
 	stack2.size = 0; 
 	fill_first_stack(av, &stack1);
 	display_stack(&stack1, &stack2);
-	operate(&stack1, &stack2);
+	//operate(&stack1, &stack2);
 	printf("\nEND");
-	//printf("size %d\n", stack1.size);
+	//display_stack(&stack1, &stack2);
+	//checking(&stack1, &stack2);
 	display_stack(&stack1, &stack2);
 	free_stack(&stack1, &stack2);
 	printf("STEP => %d\n", g_step);

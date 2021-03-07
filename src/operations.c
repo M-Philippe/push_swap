@@ -1,4 +1,4 @@
-#include "operations.h"
+#include "../includes/operations.h"
 
 #include <stdio.h>
 
@@ -58,3 +58,48 @@ void	swap_both(t_stack* s1, t_stack* s2)
 	swap_b(s2, no_write);
 	printf("SS\n");
 }
+
+void	rotate_a(t_stack* s, int flag)
+{
+	int		tmp;
+	int		tmp2;
+	int		i;
+
+	if (s->size < 2)
+		return;
+	i = 0;
+	tmp = s->stack[0];
+	while (i < s->size)
+	{
+		tmp2 = s->stack[i];
+		s->stack[i] = tmp;
+		tmp = tmp2;
+		i++;
+	}
+	s->stack[0] = tmp2;
+	if (flag == write)
+		printf("Rotate A\n");
+}
+
+void	rotate_b(t_stack* s, int flag)
+{
+	int		tmp;
+	int		tmp2;
+	int		i;
+
+	if (s->size < 2)
+		return;
+	i = 0;
+	tmp = s->stack[0];
+	while (i < s->size)
+	{
+		tmp2 = s->stack[i];
+		s->stack[i] = tmp;
+		tmp = tmp2;
+		i++;
+	}
+	s->stack[0] = tmp2;
+	if (flag == write)
+		printf("Rotate B\n");
+}
+
