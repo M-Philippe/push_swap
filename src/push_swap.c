@@ -6,6 +6,9 @@
 #include "../includes/operations.h"
 
 
+void	checking(t_stack* stack1, t_stack* stack2);
+bool	checking_sort(t_stack* s);
+
 #include <time.h>
 #include <stdlib.h>
 bool	doublon(t_stack* stack, int ipt){
@@ -24,14 +27,15 @@ void	fill_first_stack(char* av[], t_stack* stack)
 
 	srand(time(NULL));
 	int rdm = rand() % 100;
-	while (av[i])
+	//while (av[i])
+	for (int i = 0; i < 15; i++)
 	{
-		stack->stack[stack->size] = atoi(av[i]);
-		/*while (doublon(stack, rdm) == true)
-			rdm = rand() % 100;
-		stack->stack[stack->size] = rdm;*/
+		//stack->stack[stack->size] = atoi(av[i]);
+		while (doublon(stack, rdm) == true)
+			rdm = rand() % 100000;
+		stack->stack[stack->size] = rdm;
 		stack->size++;
-		i++;
+		//i++;
 	}
 }
 
@@ -86,14 +90,97 @@ void	first_step(t_stack* stack1, t_stack* stack2)
 			swap_both(stack1, stack2);
 		if (topIsGreater(stack1) == true)
 			swap_a(stack1, write);
-		//display_stack(stack1, stack2);
 	}
 }
 
+bool	checking_sort_rev(t_stack* s)
+{
+	int		diff;
+	int		i;
 
+	i = 1;
+	if (s->size <= 1)
+		return (true);
+	diff = s->stack[0];
+	while (i < s->size)
+	{
+		if (s->stack[i] - diff > 0)
+			return (false);
+		diff = s->stack[i];
+		i++;
+	}
+	return (true);
+}
+
+void	dis(t_stack* s)
+{
+	for (int i = s->size - 1; i >= 0; i--) {
+		printf("%d [%d]\n", s->stack[i], i);
+	}
+}
+
+bool	topIsBelowTmp(t_stack* s)
+{
+	if (s->size <= 1)
+		return (false);
+	if (s->stack[s->size - 1] < s->stack[s->size - 2])
+		return (true);
+	return (false);
+}
+
+int		minimum(t_stack *s)
+{
+	int		ret;
+	int		i;
+
+	ret = s->stack[0];
+	i = 0;
+	while (i < s->size)
+	{
+		if (ret > s->stack[i])
+			ret = s->stack[i];
+		i++;
+	}
+	return (ret);
+}
+
+int		top(t_stack *s)
+{
+	int		ret;
+	int		i;
+
+	ret = s->stack[0];
+	i = 0;
+	while (i < s->size)
+	{
+		if (ret < s->stack[i])
+			ret = s->stack[i];
+		i++;
+	}
+	return (ret);
+}
+
+void	before_push(t_stack* s1, t_stack *s2)
+{
+	int i;
+
+	i = 0;
+	while (s2->size != 1)
+	{
+		while (i < s2->size)
+		{
+			if (s2->stack[s2->size - 1] == top(s2))
+				push_a(s1, s2);
+			rotate_b(s2, write);
+			i++;
+		}
+		i = 0;
+	}
+}
 
 void	second_step(t_stack* stack1, t_stack* stack2)
 {
+	before_push(stack1, stack2);
 	while (stack2->size != 0)
 	{
 		if (topIsBelow(stack2) == true)
@@ -101,7 +188,6 @@ void	second_step(t_stack* stack1, t_stack* stack2)
 		push_a(stack1, stack2);
 		if (topIsGreater(stack1) == true)
 			swap_a(stack1, write);
-		//display_stack(stack1, stack2);
 	}
 }
 
@@ -155,20 +241,20 @@ int		main(int ac, char* av[])
 	t_stack		stack1;
 	t_stack		stack2;
 
-	if (ac < 2)
-		return (0);
+	//if (ac < 2)
+	//	return (0);
 	g_step = 0;
-	stack1.stack = malloc(sizeof(int) * ac - 1);
+	// ac - 1
+	stack1.stack = malloc(sizeof(int) * 500);
 	stack1.size = 0;
-	stack2.stack = malloc(sizeof(int) * ac - 1);
+	stack2.stack = malloc(sizeof(int) * 500);
 	stack2.size = 0; 
 	fill_first_stack(av, &stack1);
 	display_stack(&stack1, &stack2);
-	//operate(&stack1, &stack2);
+	operate(&stack1, &stack2);
 	printf("\nEND");
-	//display_stack(&stack1, &stack2);
-	//checking(&stack1, &stack2);
 	display_stack(&stack1, &stack2);
+	checking(&stack1, &stack2);
 	free_stack(&stack1, &stack2);
 	printf("STEP => %d\n", g_step);
 	return (0);

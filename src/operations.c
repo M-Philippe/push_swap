@@ -13,10 +13,8 @@ void	push_b(t_stack* stack1, t_stack* stack2)
 
 void	push_a(t_stack* stack1, t_stack* stack2)
 {
-	//printf("size1 [%d] || size2 [%d]\n", stack1->size, stack2->size);
 	stack1->size++;
 	stack1->stack[stack1->size - 1] = stack2->stack[stack2->size - 1];
-	//stack1->size++;
 	stack2->size--;
 	printf("Push A\n");
 	g_step += 1;
@@ -57,6 +55,7 @@ void	swap_both(t_stack* s1, t_stack* s2)
 	swap_a(s1, no_write);
 	swap_b(s2, no_write);
 	printf("SS\n");
+	g_step += 1;
 }
 
 void	rotate_a(t_stack* s, int flag)
@@ -79,6 +78,7 @@ void	rotate_a(t_stack* s, int flag)
 	s->stack[0] = tmp2;
 	if (flag == write)
 		printf("Rotate A\n");
+	g_step += 1;
 }
 
 void	rotate_b(t_stack* s, int flag)
@@ -101,5 +101,6 @@ void	rotate_b(t_stack* s, int flag)
 	s->stack[0] = tmp2;
 	if (flag == write)
 		printf("Rotate B\n");
+	g_step += 1;
 }
 
