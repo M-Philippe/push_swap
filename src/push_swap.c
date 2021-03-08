@@ -27,15 +27,17 @@ void	fill_first_stack(char* av[], t_stack* stack)
 
 	srand(time(NULL));
 	int rdm = rand() % 100;
-	//while (av[i])
-	for (int i = 0; i < 15; i++)
+	/*while (av[i]) {
+		stack->stack[stack->size] = atoi(av[i]);
+		stack->size++;
+		i++;
+	}*/	
+	for (int i = 0; i < 500; i++)
 	{
-		//stack->stack[stack->size] = atoi(av[i]);
 		while (doublon(stack, rdm) == true)
 			rdm = rand() % 100000;
 		stack->stack[stack->size] = rdm;
 		stack->size++;
-		//i++;
 	}
 }
 
@@ -44,17 +46,6 @@ void	free_stack(t_stack* stack1, t_stack* stack2)
 	free(stack1->stack);
 	free(stack2->stack);
 }
-
-//			First
-// if top isn't greater than top-1 push to b
-// if top is geater than top-1 swap
-// if top(stack2) is less thant top-1(stack2) swap
-
-// repeat until there is one element left in S1
-
-//			Second
-// if in S2 top isn't less thant top-1 push in S1
-// else swap S2 and repeat
 
 /*	Return TRUE if Top > Top-1 */
 bool	topIsGreater(t_stack* s)

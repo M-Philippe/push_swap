@@ -19,5 +19,9 @@ void	push_a(t_stack* stack1, t_stack* stack2);
 void	swap_both(t_stack* s1, t_stack* s2);
 void	rotate_a(t_stack* s, int flag);
 void	rotate_b(t_stack* s, int flag);
+void	rotate_both(t_stack* s1, t_stack* s2);
+void	reverse_rotate_a(t_stack* s, int flag);
+void	reverse_rotate_b(t_stack* s, int flag);
+void	reverse_rotate_both(t_stack* s1, t_stack *s2);
 
 #endif

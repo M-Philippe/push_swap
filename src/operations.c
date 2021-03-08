@@ -104,3 +104,64 @@ void	rotate_b(t_stack* s, int flag)
 	g_step += 1;
 }
 
+void	rotate_both(t_stack* s1, t_stack* s2)
+{
+	rotate_a(s1, no_write);
+	rotate_b(s2, no_write);
+	printf("Rotate Both\n");
+}
+
+void	reverse_rotate_a(t_stack* s, int flag)
+{
+	int		tmp;
+	int		tmp2;
+	int		i;
+
+	if (s->size < 2)
+		return;
+	i = s->size - 1;
+	tmp = s->stack[s->size - 1];
+	s->stack[s->size - 1] = s->stack[0];
+	i--;
+	while (i >= 0)
+	{
+		tmp2 = s->stack[i];
+		s->stack[i] = tmp;
+		tmp = tmp2;
+		i--;
+	}
+	if (flag == write)
+		printf("Reverse rotate A\n");
+	g_step += 1;
+}
+
+void	reverse_rotate_b(t_stack* s, int flag)
+{
+	int		tmp;
+	int		tmp2;
+	int		i;
+
+	if (s->size < 2)
+		return;
+	i = s->size - 1;
+	tmp = s->stack[s->size - 1];
+	s->stack[s->size - 1] = s->stack[0];
+	i--;
+	while (i >= 0)
+	{
+		tmp2 = s->stack[i];
+		s->stack[i] = tmp;
+		tmp = tmp2;
+		i--;
+	}
+	if (flag == write)
+		printf("Reverse rotate B\n");
+	g_step += 1;
+}
+
+void	reverse_rotate_both(t_stack* s1, t_stack *s2)
+{
+	reverse_rotate_a(s1, no_write);
+	reverse_rotate_b(s2, no_write);
+	printf("Reverse rotate both\n");
+}
