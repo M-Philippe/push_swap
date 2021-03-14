@@ -3,6 +3,7 @@
 
 #tmp
 *.cpp
+tags
 
 # Vim files
 *.swp
