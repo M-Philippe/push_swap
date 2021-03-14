@@ -72,13 +72,14 @@ bool	topIsBelow(t_stack* s)
 void	display_stack(t_stack* stack1, t_stack* stack2)
 {
 	int i = stack1->size - 1;
-	printf("\nFIRST_STACK\n");
+	printf("\nSTACK\n");
 	for (; i >= 0; i--)
-		printf("%d\n", stack1->stack[i]);
+		printf("%d ", stack1->stack[i]);
 	i = stack2->size - 1;
-	printf("SECOND_STACK\n");
+	printf("\n");
 	for (; i >= 0; i--)
-		printf("%d [%d]\n", stack2->stack[i], i);
+		printf("%d ", stack2->stack[i]);
+	printf("\n");
 }
 
 int		get_pivot(t_stack* s, int size)
@@ -113,19 +114,6 @@ int		get_pivot_index(t_stack* s, int pivot)
 	return (i);
 }
 
-bool	checkMinValue(t_stack* s, int value)
-{
-	int	i = 0;
-
-	while (i < s->size)
-	{
-		if (s->stack[i] <= value)
-			return (true);
-		i++;
-	}
-	return (false);
-}
-
 bool	chunkStackisSort(t_stack* s1, int size)
 {
 	int	i;
@@ -158,30 +146,29 @@ int	chunkPivot(t_stack *s, int size)
 	{
 		ret += s->stack[i];
 		i--;
-		//printf("%d\n", i);
 		c++;
 	}
-	if (ret == 0 || size == 0)
-		printf("HA\n");
 	return (ret / size);
 }
 
 void	stack3(t_stack* s1, t_stack* s2, int size)
 {
-	//printf("STACK3\n");
+	//printf("STACK3\nSIZE %d\n", size);
+	//display_stack(s1, s2);
 	for (int i = 0; i < size; i++)
-		push_b(s1, s2);
+		push_b(s1, s2); //
 	if (s2->size == 2)
 	{
 		if (topIsBelow(s2) == true)
 			rotate_b(s2, write);
 		while (s2->size != 0)
-			push_a(s1, s2);
+			push_a(s1, s2); //
 		while (size != 0)
 		{
 			rotate_a(s1, write);
 			size--;
 		}
+		display_stack(s1, s2);
 		return;
 	}
 	if (topIsBelow(s2) == true) // [123] [132] [231]
@@ -206,13 +193,50 @@ void	stack3(t_stack* s1, t_stack* s2, int size)
 			swap_b(s2, write);
 		}
 	}
+	display_stack(s1, s2);
 	while (s2->size != 0)
-		push_a(s1, s2);
+		push_a(s1, s2); //
 	while (size != 0)
 	{
 		rotate_a(s1, write);
 		size--;
 	}
+}
+
+int	getTop(t_stack *s)
+{
+	int	i;
+	int	ret;
+
+	i = 1;
+	ret = s->stack[0];
+	while (i < s->size)
+	{
+		if (ret < s->stack[i])
+			ret = s->stack[i];
+		i++;
+	}
+	return (ret);
+}
+
+void	handleMinCase(t_stack* s1, t_stack* s2, int size)
+{
+	int	top;
+
+	//printf("TOP %d\n", size);
+	//display_stack(s1,s2);
+	top = getTop(s2);
+	while (s2->size != 1)
+	{
+		if (s2->stack[s2->size - 1] == top)
+		{
+			push_a(s1, s2);
+			top = getTop(s2);
+		}
+		rotate_b(s2, write);
+	}
+	push_a(s1, s2);
+	//display_stack(s1,s2);
 }
 
 void	split(t_stack* s1, t_stack* s2, int size)
@@ -226,9 +250,9 @@ void	split(t_stack* s1, t_stack* s2, int size)
 	while (i < size)
 	{
 		if (size % 2 != 0 && s1->stack[s1->size - 1] < pivot)
-			push_b(s1, s2);
+			push_b(s1, s2); //
 		else if (s1->stack[s1->size - 1] <= pivot)
-			push_b(s1, s2);
+			push_b(s1, s2); //
 		else
 		{
 			rotate_a(s1, write);
@@ -237,34 +261,33 @@ void	split(t_stack* s1, t_stack* s2, int size)
 		i++;
 		//display_stack(s1, s2);
 	}
+	//printf("rot %d\n", rotation);
 	while (rotation != 0)
 	{
 		reverse_rotate_a(s1, write);
 		rotation--;
 	}
-	//	ALGO STACKSIZE <= 3
-	//if (s2->size <= 3)
-	//	stack3(s1, s2);
+	if (s2->size <= 10)
+		handleMinCase(s1, s2, size);
 	while (s2->size != 0)
 	{
-		push_a(s1, s2);
+		push_a(s1, s2); //
 	}
 }
 
 bool	checking_sort(t_stack* s);
 void    quicksort(t_stack* s1, t_stack* s2, int size)
 {
-	int	pivot;
-	
-	//display_stack(s1, s2);
+	printf("Quicksort [%d]\n", size);
+	display_stack(s1, s2);
 	//sleep(1);
-	if (chunkStackisSort(s1, size) == true && size > 3)
+	if (chunkStackisSort(s1, size) == true)
 	{
 		//printf("\nBEFORE ROTATE\n");
 		//display_stack(s1, s2);
 		if (checking_sort(s1) == false)
 		{
-			printf("SIZE %d\n", size);
+			//printf("SIZE %d\n", size);
 			for (int i = 0; i < size; i++)
 				rotate_a(s1, write);
 		}
@@ -277,11 +300,11 @@ void    quicksort(t_stack* s1, t_stack* s2, int size)
 	else
 	{
 		stack3(s1, s2, size);
-		return;
 	}
 	quicksort(s1, s2, size / 2);
 	if (size % 2 != 0)
 		size++;
+	//printf("Here\n");
 	quicksort(s1, s2, size / 2);
 }
 
@@ -337,9 +360,9 @@ int		main(int ac, char* av[])
 	second_algo(&stack1, &stack2);
 	/**/
 	//printf("\nEND");
-	//display_stack(&stack1, &stack2);
-	checking(&stack1, &stack2);
+	display_stack(&stack1, &stack2);
+	//checking(&stack1, &stack2);
 	free_stack(&stack1, &stack2);
 	//printf("STEP => %d\n", g_step);
-	return (0);
+	//return (0);
 }
