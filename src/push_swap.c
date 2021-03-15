@@ -6,6 +6,12 @@
 #include "../includes/operations.h"
 #include "../includes/first_algo.h"
 
+/*
+ * 	SEGFAULT IF STACK ALREAY SORTED
+*/
+
+
+
 void	checking(t_stack* stack1, t_stack* stack2);
 bool	checking_sort(t_stack* s);
 
@@ -69,7 +75,7 @@ bool	topIsBelow(t_stack* s)
 	return (false);
 }
 
-void	display_stack(t_stack* stack1, t_stack* stack2)
+/*void	display_stack(t_stack* stack1, t_stack* stack2)
 {
 	int i = stack1->size - 1;
 	printf("\nSTACK\n");
@@ -80,6 +86,31 @@ void	display_stack(t_stack* stack1, t_stack* stack2)
 	for (; i >= 0; i--)
 		printf("%d ", stack2->stack[i]);
 	printf("\n");
+}*/
+void	display_stack(t_stack* s1, t_stack* s2)
+{
+	/*printf("\nSTACK\n");
+	for (int i = 0; i < stack1->size; i++)
+		printf("%d ", stack1->stack[i]);
+	printf("\n");
+	for (int i = 0; i < stack2->size; i--)
+		printf("%d ", stack2->stack[i]);
+	printf("\n");*/
+	printf("FIRST | SECOND\n");
+	int	i = 0;
+	if (s1->size > s2->size)
+		i = s1->size - 1;
+	else
+		i = s2->size - 1;
+	for (; i >= 0; i--)
+	{
+		if (i < s1->size)
+			printf("%d", s1->stack[i]);
+		printf("   |   ");
+		if (i < s2->size)
+			printf("%d", s2->stack[i]);
+		printf("\n");
+	}
 }
 
 int		get_pivot(t_stack* s, int size)
@@ -203,9 +234,47 @@ int	chunkPivot(t_stack *s, int size)
 	}
 }*/
 
+/*
+ * [321] OK
+ * [132]	A	OK
+ * [231]	B	OK
+ * [213]	C
+ * [312]	D	OK
+ * [123]	E
+*/
+
 void	stack3(t_stack* s1, t_stack* s2, int size)
 {
-	// TODO
+	if (chunkStackisSort(s1, 2) == true)
+		return;
+	if (size == 2 && topIsGreater(s1) == true)
+	{
+		swap_a(s1, write);
+		return;
+	}
+	else if (size == 2)
+		return;
+	for (int i = 0; i < 3; i++)
+		push_b(s1, s2);
+	display_stack(s1, s2);
+	if (s2->stack[2] > s2->stack[0] && s2->stack[1] > s2->stack[0]) // B
+		swap_b(s2, write);
+	else if (s2->stack[2] > s2->stack[0] && s2->stack[1] < s2->stack[0]) // D
+	{
+		reverse_rotate_b(s2, write);
+		swap_b(s2, write);
+	}
+	else if (s2->stack[2] < s2->stack[0] && s2->stack[1] > s2->stack[0]) // A
+		rotate_b(s2, write);
+	else if (s2->stack[2] < s2->stack[0] && s2->stack[2] > s2->stack[1]) // C
+		reverse_rotate_b(s2, write);
+	else if (s2->stack[2] < s2->stack[0] && s2->stack[2] < s2->stack[1]) // E
+	{
+		rotate_b(s2, write);
+		swap_b(s2, write);
+	}
+	for (int i = 0; i < 3; i++)
+		push_a(s1, s2);
 }
 
 int	getTop(t_stack *s)
@@ -363,13 +432,14 @@ int		main(int ac, char* av[])
 	stack2.size = 0; 
 	fill_first_stack(av, &stack1, ac);
 	//printf("START\n");
-	//display_stack(&stack1, &stack2);
+	display_stack(&stack1, &stack2);
 	/**/
 	//first_algo(&stack1, &stack2);
 	second_algo(&stack1, &stack2);
+//	stack3(&stack1, &stack2, 3);
 	/**/
 	//printf("\nEND");
-	//display_stack(&stack1, &stack2);
+	display_stack(&stack1, &stack2);
 	//checking(&stack1, &stack2);
 	free_stack(&stack1, &stack2);
 	//printf("STEP => %d\n", g_step);
