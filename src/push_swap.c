@@ -151,7 +151,7 @@ int	chunkPivot(t_stack *s, int size)
 	return (ret / size);
 }
 
-void	stack3(t_stack* s1, t_stack* s2, int size)
+/*void	stack3(t_stack* s1, t_stack* s2, int size)
 {
 	//printf("STACK3\nSIZE %d\n", size);
 	//display_stack(s1, s2);
@@ -168,12 +168,12 @@ void	stack3(t_stack* s1, t_stack* s2, int size)
 			rotate_a(s1, write);
 			size--;
 		}
-		display_stack(s1, s2);
+		//display_stack(s1, s2);
 		return;
 	}
 	if (topIsBelow(s2) == true) // [123] [132] [231]
 	{
-		if (s2->stack[2] > s2->stack[0]) //[231]
+		if (s2->stack[0] > s2->stack[2]) //[231]
 			swap_b(s2, write);
 		else if (s2->stack[1] > s2->stack[0]) //[132]
 			rotate_b(s2, write);
@@ -185,7 +185,7 @@ void	stack3(t_stack* s1, t_stack* s2, int size)
 	}
 	else // [213] [312] [321]
 	{
-		if (s2->stack[2] < s2->stack[0]) // [213]
+		if (s2->stack[0] < s2->stack[2]) // [213]
 			reverse_rotate_b(s2, write);
 		else if (s2->stack[1] < s2->stack[0]) // [312]
 		{
@@ -193,7 +193,7 @@ void	stack3(t_stack* s1, t_stack* s2, int size)
 			swap_b(s2, write);
 		}
 	}
-	display_stack(s1, s2);
+	//display_stack(s1, s2);
 	while (s2->size != 0)
 		push_a(s1, s2); //
 	while (size != 0)
@@ -201,6 +201,11 @@ void	stack3(t_stack* s1, t_stack* s2, int size)
 		rotate_a(s1, write);
 		size--;
 	}
+}*/
+
+void	stack3(t_stack* s1, t_stack* s2, int size)
+{
+	// TODO
 }
 
 int	getTop(t_stack *s)
@@ -250,8 +255,8 @@ void	split(t_stack* s1, t_stack* s2, int size)
 	while (i < size)
 	{
 		if (size % 2 != 0 && s1->stack[s1->size - 1] < pivot)
-			push_b(s1, s2); //
-		else if (s1->stack[s1->size - 1] <= pivot)
+			{ push_b(s1, s2);} //
+		else if (size % 2 == 0 && s1->stack[s1->size - 1] <= pivot)
 			push_b(s1, s2); //
 		else
 		{
@@ -262,13 +267,14 @@ void	split(t_stack* s1, t_stack* s2, int size)
 		//display_stack(s1, s2);
 	}
 	//printf("rot %d\n", rotation);
+	//display_stack(s1, s2);
 	while (rotation != 0)
 	{
 		reverse_rotate_a(s1, write);
 		rotation--;
 	}
-	if (s2->size <= 10)
-		handleMinCase(s1, s2, size);
+	//if (s2->size <= 11)
+	//	handleMinCase(s1, s2, size);
 	while (s2->size != 0)
 	{
 		push_a(s1, s2); //
@@ -278,9 +284,12 @@ void	split(t_stack* s1, t_stack* s2, int size)
 bool	checking_sort(t_stack* s);
 void    quicksort(t_stack* s1, t_stack* s2, int size)
 {
-	printf("Quicksort [%d]\n", size);
-	display_stack(s1, s2);
+	//printf("Quicksort [%d]\n", size);
+	//display_stack(s1, s2);
 	//sleep(1);
+	if (size == 1){
+		rotate_a(s1, write);
+		return;}
 	if (chunkStackisSort(s1, size) == true)
 	{
 		//printf("\nBEFORE ROTATE\n");
@@ -295,12 +304,12 @@ void    quicksort(t_stack* s1, t_stack* s2, int size)
 		//display_stack(s1, s2);
         	return;
 	}
-	if (size > 3)
+	//if (size > 3)
 		split(s1, s2, size);
-	else
-	{
-		stack3(s1, s2, size);
-	}
+	//else
+	//	stack3(s1, s2, size);
+	//while (s2->size != 0)
+	//	push_a(s1, s2);
 	quicksort(s1, s2, size / 2);
 	if (size % 2 != 0)
 		size++;
@@ -360,7 +369,7 @@ int		main(int ac, char* av[])
 	second_algo(&stack1, &stack2);
 	/**/
 	//printf("\nEND");
-	display_stack(&stack1, &stack2);
+	//display_stack(&stack1, &stack2);
 	//checking(&stack1, &stack2);
 	free_stack(&stack1, &stack2);
 	//printf("STEP => %d\n", g_step);
