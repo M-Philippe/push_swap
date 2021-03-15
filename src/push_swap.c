@@ -293,7 +293,21 @@ int	getTop(t_stack *s)
 	return (ret);
 }
 
-void	handleMinCase(t_stack* s1, t_stack* s2, int size)
+int	get_top_index(t_stack *s, int top)
+{
+	int	i;
+
+	i = s->size - 1;
+	while (i >= 0)
+	{
+		if (s->stack[i] == top)
+			return (i);
+		i--;
+	}
+	return (i);
+}
+
+/*void	handleMinCase(t_stack* s1, t_stack* s2, int size)
 {
 	int	top;
 
@@ -311,6 +325,24 @@ void	handleMinCase(t_stack* s1, t_stack* s2, int size)
 	}
 	push_a(s1, s2);
 	//display_stack(s1,s2);
+}*/
+
+
+void	handleMinCase(t_stack* s1, t_stack* s2, int size)
+{
+	int	top;
+
+	while (s2->size != 0)
+	{
+		top = getTop(s2);
+		if (s2->size / 2 > get_top_index(s2, top)) // rra
+			while (s2->stack[s2->size - 1] != top)
+				reverse_rotate_b(s2, write);
+		else
+			while (s2->stack[s2->size - 1] != top)
+				rotate_b(s2, write);
+		push_a(s1, s2);
+	}
 }
 
 void	split(t_stack* s1, t_stack* s2, int size)
@@ -337,13 +369,14 @@ void	split(t_stack* s1, t_stack* s2, int size)
 	}
 	//printf("rot %d\n", rotation);
 	//display_stack(s1, s2);
-	while (rotation != 0)
+	while (rotation != 0 && s1->first_lap == false)
 	{
 		reverse_rotate_a(s1, write);
 		rotation--;
 	}
-	//if (s2->size <= 11)
-	//	handleMinCase(s1, s2, size);
+	s1->first_lap = false;
+	if (s2->size <= 27)
+		handleMinCase(s1, s2, size);
 	while (s2->size != 0)
 	{
 		push_a(s1, s2); //
@@ -428,18 +461,19 @@ int		main(int ac, char* av[])
 	g_step = 0;
 	stack1.stack = malloc(sizeof(int) * ac - 1);
 	stack1.size = 0;
+	stack1.first_lap = true;
 	stack2.stack = malloc(sizeof(int) * ac - 1);
 	stack2.size = 0; 
 	fill_first_stack(av, &stack1, ac);
 	//printf("START\n");
-	display_stack(&stack1, &stack2);
+	//display_stack(&stack1, &stack2);
 	/**/
 	//first_algo(&stack1, &stack2);
 	second_algo(&stack1, &stack2);
 //	stack3(&stack1, &stack2, 3);
 	/**/
 	//printf("\nEND");
-	display_stack(&stack1, &stack2);
+	//display_stack(&stack1, &stack2);
 	//checking(&stack1, &stack2);
 	free_stack(&stack1, &stack2);
 	//printf("STEP => %d\n", g_step);

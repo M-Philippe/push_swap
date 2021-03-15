@@ -3,10 +3,6 @@
 
 #include "push_swap.h"
 
-typedef int bool;
-#define true 0
-#define false 1
-
 #define write 0
 #define no_write 1
 
