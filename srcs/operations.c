@@ -1,3 +1,4 @@
+#include "../includes/stack.h"
 #include "../includes/operations.h"
 
 #include <stdio.h>
