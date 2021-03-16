@@ -7,10 +7,6 @@
 #include "../includes/quicksort.h"
 #include "../includes/stack_utils.h"
 
-/*
- *      SEGFAULT IF STACK ALREAY SORTED
- */
-
 void    checking(t_stack* stack1);
 bool    checking_sort(t_stack* s);
 
@@ -192,9 +188,8 @@ int             main(int ac, char* av[])
 	stack2.stack = malloc(sizeof(int) * ac - 1);
 	stack2.size = 0; 
 	fill_first_stack(av, &stack1, ac);
-	//display_stack(&stack1, &stack2);
-	second_algo(&stack1, &stack2);
-	/**/
+	if (stack1.size != 1 && checking_sort(&stack1) == false)
+		second_algo(&stack1, &stack2);
 	//checking(&stack1);
 	free_stack(&stack1, &stack2);
 	//printf("STEP => %d\n", g_step);
