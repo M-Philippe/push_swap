@@ -174,6 +174,39 @@ void    checking(t_stack* stack1)
 		printf("Error, the stack isn't sorted\n");      
 }
 
+/*
+ * [321] OK
+ * [132]        A       
+ * [231]        B      
+ * [213]        C
+ * [312]        D     
+ * [123]        E
+ */
+
+
+void	stack3(t_stack *s1)
+{
+	if (topIsBelow(s1) == true && s1->stack[2] > s1->stack[0]) // A
+		reverse_rotate_a(s1, write);
+	else if (topIsBelow(s1) == true && s1->stack[2] < s1->stack[0]) // B
+	{
+		reverse_rotate_a(s1, write);
+		swap_a(s1, write);
+	}
+	else if (topIsGreater(s1) == true && s1->stack[1] < s1->stack[0]
+			&& s1->stack[2] < s1->stack[0]) // D
+		swap_a(s1, write);
+	else if (topIsGreater(s1) == true && s1->stack[1] < s1->stack[0]
+			&& s1->stack[2] > s1->stack[0]) // C
+		rotate_a(s1, write);
+	else if (topIsGreater(s1) == true && s1->stack[1] > s1->stack[0]
+			&& s1->stack[2] > s1->stack[0]) // E
+	{
+		swap_a(s1, write);
+		reverse_rotate_a(s1, write);
+	}
+}
+
 int             main(int ac, char* av[])
 {
 	t_stack         stack1;
@@ -188,8 +221,17 @@ int             main(int ac, char* av[])
 	stack2.stack = malloc(sizeof(int) * ac - 1);
 	stack2.size = 0; 
 	fill_first_stack(av, &stack1, ac);
+	//display_stack(&stack1, &stack2);
 	if (stack1.size != 1 && checking_sort(&stack1) == false)
-		second_algo(&stack1, &stack2);
+	{
+		if (stack1.size == 2 && topIsGreater(&stack1) == true)
+			swap_a(&stack1, write);
+		else if (stack1.size == 3)
+			stack3(&stack1);
+		else
+			second_algo(&stack1, &stack2);
+	}
+	//display_stack(&stack1, &stack2);
 	//checking(&stack1);
 	free_stack(&stack1, &stack2);
 	//printf("STEP => %d\n", g_step);
