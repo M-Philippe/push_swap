@@ -1,4 +1,4 @@
-#include "../includes/info_stack.h"
+#include "../includes/stack_utils.h"
 
 int	getTop(t_stack *s)
 {

@@ -1,6 +1,6 @@
 #include "../includes/stack.h"
 #include "../includes/operations.h"
-#include "../includes/info_stack.h"
+#include "../includes/stack_utils.h"
 #include "../includes/push_swap.h"
 
 bool	chunkStackisSort(t_stack* s1, int size)

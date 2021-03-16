@@ -10,12 +10,12 @@ INCS	=	./includes/push_swap.h\
 		./includes/push_swap.h\
 		./includes/stack.h\
 		./includes/quicksort.h\
-		./includes/info_stack.h\
+		./includes/stack_utils.h\
 
 COMP	=	$(SRCS_D)push_swap.c\
 		$(SRCS_D)operations.c\
 		$(SRCS_D)quicksort.c\
-		$(SRCS_D)info_stack.c\
+		$(SRCS_D)stack_utils.c\
 
 all: $(NAME)
 
