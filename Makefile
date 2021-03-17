@@ -1,6 +1,6 @@
 CC	=	clang
 
-CFLAGS	=	-Wall -Wextra
+CFLAGS	=	-Wall -Wextra -fsanitize=address
 
 NAME	=	push_swap
 
@@ -11,11 +11,13 @@ INCS	=	./includes/push_swap.h\
 		./includes/stack.h\
 		./includes/quicksort.h\
 		./includes/stack_utils.h\
+		./includes/first_algo.h\
 
 COMP	=	$(SRCS_D)push_swap.c\
 		$(SRCS_D)operations.c\
 		$(SRCS_D)quicksort.c\
 		$(SRCS_D)stack_utils.c\
+		$(SRCS_D)first_algo.c\
 
 all: $(NAME)
 

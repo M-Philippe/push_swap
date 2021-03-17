@@ -10,6 +10,8 @@
 void    checking(t_stack* stack1);
 bool    checking_sort(t_stack* s);
 
+void	first_algo(t_stack* s1, t_stack* s2);
+
 #include <time.h>
 #include <stdlib.h>
 bool    doublon(t_stack* stack, int ipt){
@@ -228,6 +230,8 @@ int             main(int ac, char* av[])
 			swap_a(&stack1, write);
 		else if (stack1.size == 3)
 			stack3(&stack1);
+		else if (stack1.size <= 20)
+			first_algo(&stack1, &stack2);
 		else
 			second_algo(&stack1, &stack2);
 	}

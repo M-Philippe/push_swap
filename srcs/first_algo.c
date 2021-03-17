@@ -36,13 +36,6 @@ bool	checking_sort_rev(t_stack* s)
 	return (true);
 }
 
-void	dis(t_stack* s)
-{
-	for (int i = s->size - 1; i >= 0; i--) {
-		printf("%d [%d]\n", s->stack[i], i);
-	}
-}
-
 bool	topIsBelowTmp(t_stack* s)
 {
 	if (s->size <= 1)
@@ -114,7 +107,7 @@ void	before_push(t_stack* s1, t_stack *s2)
 		while (i < s2->size)
 		{
 			if (s2->stack[s2->size - 1] == top(s2))
-				push_a(s1, s2);
+				push_b(s1, s2); //
 			// if index < size / 2 -> reverse
 			if (index_top < s2->size / 2)
 				reverse_rotate_b(s2, write);
@@ -132,7 +125,7 @@ void	second_step(t_stack* stack1, t_stack* stack2)
 	{
 		if (topIsBelow(stack2) == true)
 			swap_b(stack2, write);
-		push_a(stack1, stack2);
+		push_b(stack1, stack2); //
 		if (topIsGreater(stack1) == true)
 			swap_a(stack1, write);
 	}

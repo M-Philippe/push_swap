@@ -1,7 +1,7 @@
 #ifndef FIRST_ALGO_HPP
 # define FIRST_ALGO_HPP
 
-#include "push_swap.h"
+#include "stack.h"
 
 void	first_step(t_stack* stack1, t_stack* stack2);
 void	second_step(t_stack* stack1, t_stack* stack2);
