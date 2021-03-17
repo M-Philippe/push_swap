@@ -157,8 +157,8 @@ int	main(int ac, char *av[])
 			swap_a(&stack1, WRITE);
 		else if (stack1.size == 3)
 			stack3(&stack1);
-		else if (stack1.size <= 20)
-			first_algo(&stack1, &stack2);
+		//else if (stack1.size <= 20)
+		//	first_algo(&stack1, &stack2);
 		else
 			second_algo(&stack1, &stack2);
 	}
