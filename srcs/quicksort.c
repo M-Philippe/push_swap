@@ -3,7 +3,7 @@
 #include "../includes/stack_utils.h"
 #include "../includes/push_swap.h"
 
-bool	chunkStackisSort(t_stack* s1, int size)
+t_bool	chunkStackisSort(t_stack *s1, int size)
 {
 	int	i;
 	int	c;
@@ -11,15 +11,15 @@ bool	chunkStackisSort(t_stack* s1, int size)
 	i = s1->size - 1;
 	c = 0;
 	if (s1->size == 1)
-		return (true);
+		return (TRUE);
 	while (c < size)
 	{
 		if (s1->stack[i] > s1->stack[i - 1])
-			return (false);
+			return (FALSE);
 		c++;
 		i--;
 	}
-	return (true);
+	return (TRUE);
 }
 
 int	chunkPivot(t_stack *s, int size)
@@ -40,71 +40,80 @@ int	chunkPivot(t_stack *s, int size)
 	return (ret / size);
 }
 
-void	handleMinCase(t_stack* s1, t_stack* s2)
+void	handleMinCase(t_stack *s1, t_stack *s2)
 {
 	int	top;
 
 	while (s2->size != 0)
 	{
 		top = getTop(s2);
-		if (s2->size / 2 > get_top_index(s2, top)) // rra
+		if (s2->size / 2 > get_top_index(s2, top))
 			while (s2->stack[s2->size - 1] != top)
-				reverse_rotate_b(s2, write);
+				reverse_rotate_b(s2, WRITE);
 		else
 			while (s2->stack[s2->size - 1] != top)
-				rotate_b(s2, write);
+				rotate_b(s2, WRITE);
 		push_a(s1, s2);
 	}
 }
 
-void	split(t_stack* s1, t_stack* s2, int size)
+void	split(t_stack *s1, t_stack *s2, int size)
 {
 	int	pivot;
 	int	rotation;
+	int	i;
 
 	rotation = 0;
 	pivot = chunkPivot(s1, size);
-	int i = 0;
+	i = 0;
 	while (i < size)
 	{
 		if (size % 2 != 0 && s1->stack[s1->size - 1] < pivot)
-			{ push_b(s1, s2);} //
+			push_b(s1, s2);
 		else if (size % 2 == 0 && s1->stack[s1->size - 1] <= pivot)
-			push_b(s1, s2); //
+			push_b(s1, s2);
 		else
 		{
-			rotate_a(s1, write);
+			rotate_a(s1, WRITE);
 			rotation++;
 		}
 		i++;
 	}
-	while (rotation != 0 && s1->first_lap == false)
+	while (rotation != 0 && s1->first_lap == FALSE)
 	{
-		reverse_rotate_a(s1, write);
+		reverse_rotate_a(s1, WRITE);
 		rotation--;
 	}
-	s1->first_lap = false;
+	s1->first_lap = FALSE;
 	if (s2->size <= 27)
 		handleMinCase(s1, s2);
 	while (s2->size != 0)
 	{
-		push_a(s1, s2); //
+		push_a(s1, s2);
 	}
 }
 
-void    quicksort(t_stack* s1, t_stack* s2, int size)
+void	quicksort(t_stack *s1, t_stack *s2, int size)
 {
-	if (size == 1){
-		rotate_a(s1, write);
-		return;}
-	if (chunkStackisSort(s1, size) == true)
+	int	i;
+
+	i = 0;
+	if (size == 1)
 	{
-		if (checking_sort(s1) == false)
+		rotate_a(s1, WRITE);
+		return ;
+	}
+	if (chunkStackisSort(s1, size) == TRUE)
+	{
+		if (checking_sort(s1) == FALSE)
 		{
-			for (int i = 0; i < size; i++)
-				rotate_a(s1, write);
+			while (i < size)
+			{
+				rotate_a(s1, WRITE);
+				i++;
+			}
 		}
-        	return;
+		return ;
 	}
 	split(s1, s2, size);
 	quicksort(s1, s2, size / 2);

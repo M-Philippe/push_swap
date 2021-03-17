@@ -1,17 +1,16 @@
 #ifndef STACK_H
 # define STACK_H
 
-typedef int bool;
-#define true 0
-#define false 1
+# define TRUE 0
+# define FALSE 1
 
-int	g_step;
-
-typedef	struct s_stack
+typedef int	t_bool;
+int		g_step;
+typedef struct s_stack
 {
-	int*	stack;
+	int	*stack;
 	int	size;
-	bool	first_lap;
-}		t_stack;
+	t_bool	first_lap;
+}	t_stack;
 
 #endif

@@ -31,21 +31,21 @@ int	get_top_index(t_stack *s, int top)
 }
 
 /*	Return TRUE if Top > Top-1 */
-bool	topIsGreater(t_stack* s)
+t_bool	topIsGreater(t_stack *s)
 {
 	if (s->size <= 1)
-		return (false);
+		return (FALSE);
 	if (s->stack[s->size - 1] > s->stack[s->size - 2])
-		return (true);
-	return (false);
+		return (TRUE);
+	return (FALSE);
 }
 
 /*	Return TRUE if Top < Top-1 */
-bool	topIsBelow(t_stack* s)
+t_bool	topIsBelow(t_stack *s)
 {
 	if (s->size <= 1)
-		return (false);
+		return (FALSE);
 	if (s->stack[s->size - 1] < s->stack[s->size - 2])
-		return (true);
-	return (false);
+		return (TRUE);
+	return (FALSE);
 }
